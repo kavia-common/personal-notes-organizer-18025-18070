@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "Minimal Next.js App",
-  description: "Ultra-minimal Next.js application",
+  title: "Notes",
+  description: "Simple, minimal, and responsive notes application",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+// Ensure dynamic rendering to avoid static generation issues
+export const dynamic = "force-dynamic";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

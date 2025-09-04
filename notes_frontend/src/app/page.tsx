@@ -1,9 +1,21 @@
+"use client";
+
+import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
+
+export const dynamic = "force-dynamic";
+
 export default function Home() {
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (loading) return;
+    window.location.href = user ? "/notes" : "/auth";
+  }, [user, loading]);
+
   return (
-    <main className="min-h-screen bg-white flex items-center justify-center">
-      <h1 className="text-black text-4xl font-light">
-        notes_frontend is being generated
-      </h1>
+    <main className="flex min-h-screen items-center justify-center bg-white">
+      <p className="text-sm text-gray-600">Loading…</p>
     </main>
   );
 }

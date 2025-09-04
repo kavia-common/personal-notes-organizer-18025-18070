@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notes Frontend (Next.js)
 
-## Getting Started
+Modern, minimalistic notes application UI with:
+- User authentication
+- Create, read, update, delete notes
+- Search and filter by tags
+- Tagging notes
+- Responsive sidebar layout
+- Light theme using palette:
+  - Primary: #0070f3
+  - Secondary: #1a202c
+  - Accent: #f59e42
 
-First, run the development server:
+## Running locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1) Install deps
+   npm install
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2) (Optional) Configure backend URL
+   Copy .env.example to .env and set:
+     NEXT_PUBLIC_BACKEND_API_URL=https://your-backend.example.com
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+If NEXT_PUBLIC_BACKEND_API_URL is not set, the app uses an in-memory fallback store to allow local demo (no persistence).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3) Start dev server
+   npm run dev
+   Open http://localhost:3000
 
-## Learn More
+## Structure
 
-To learn more about Next.js, take a look at the following resources:
+- src/app
+  - page.tsx (redirect logic)
+  - auth/page.tsx (login/register)
+  - notes/page.tsx (protected app)
+- src/components (UI components and layout pieces)
+- src/context/AuthContext.tsx (auth state)
+- src/lib/api.ts (API client; uses in-memory fallback)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Backend integration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Set NEXT_PUBLIC_BACKEND_API_URL to point to your backend.
+- Expected endpoints (illustrative, to be implemented on backend):
+  - POST /auth/login {email, password} -> {id, email, token}
+  - POST /auth/register {email, password} -> {id, email, token}
+  - POST /auth/logout
+  - GET /notes -> Note[]
+  - POST /notes -> Note
+  - PUT /notes/:id -> Note
+  - DELETE /notes/:id
 
-## Deploy on Vercel
+Attach Bearer token in Authorization header if using token auth.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Keyboard shortcuts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Ctrl/Cmd + S: Save note
+
+## Accessibility
+
+- Buttons and inputs include labels and aria attributes where relevant.
